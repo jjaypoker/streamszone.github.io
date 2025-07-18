@@ -1,35 +1,137 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <title>Sport Events Live</title>
+  <meta charset="UTF-8" />
+  <title>SportowaTV</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 40px;
+    }
+    .channel {
+      background-color: #222;
+      border-radius: 12px;
+      padding: 15px;
+      margin: 15px auto;
+      width: 90%;
+      max-width: 600px;
+    }
+    .channel img {
+      max-width: 100px;
+      display: block;
+      margin: 10px auto;
+    }
+    .channel button {
+      background-color: #0a84ff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .channel button:hover {
+      background-color: #005bd1;
+    }
+    video {
+      margin-top: 30px;
+      width: 90%;
+      max-width: 900px;
+      border: 2px solid #fff;
+      border-radius: 10px;
+      display: none;
+    }
+  </style>
 </head>
 <body>
-  <h1>Transmisje Sportowe</h1>
-  
-<div class="flowplayer fixed-controls no-toggle no-time play-button obj" data-key="$812975748999788" data-live="true" data-share="false" data-ratio="0.5625" data-logo="">
-<video autoplay="true">
-<source type="application/x-mpegurl" src="https://vserver4.no-ip.org:8002/live/NBEdiXulTS/c6KjHkanhr/2315.ts">
-</video>   
-</div>
+  <h1>📺 SportowaTV – Twoje kanały sportowe</h1>
 
+  <div id="channels"></div>
 
-  <video id="player" width="600" controls></video>
+  <video id="player" controls autoplay></video>
 
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script>
+    const channels = [
+      {
+        name: "TVP Sport HD",
+        logo: "https://sat-kom.co.uk/logos/173.png",
+        url: "https://vserver4.no-ip.org:8002/live/NBEdiXulTS/c6KjHkanhr/2310.ts"
+      },
+      {
+        name: "Eleven Sports 1 HD",
+        logo: "https://sat-kom.co.uk/logos/147.png",
+        url: "https://vserver4.no-ip.org:8002/live/NBEdiXulTS/c6KjHkanhr/2311.ts"
+      },
+      {
+        name: "Eleven Sports 2 HD",
+        logo: "https://sat-kom.co.uk/logos/148.png",
+        url: "https://vserver4.no-ip.org:8002/live/NBEdiXulTS/c6KjHkanhr/2312.ts"
+      },
+      {
+        name: "Eleven Sports 3 HD",
+        logo: "https://sat-kom.co.uk/logos/149.png",
+        url: "https://vserver4.no-ip.org:8002/live/NBEdiXulTS/c6KjHkanhr/2313.ts"
+      },
+      {
+        name: "Canal+ Sport HD",
+        logo: "https://sat-kom.co.uk/logos/167.png",
+        url: "https://vserver4.no-ip.org:8002/live/NBEdiXulTS/c6KjHkanhr/2315.ts"
+      },
+      {
+        name: "Canal+ Sport 2 HD",
+        logo: "https://sat-kom.co.uk/logos/168.png",
+        url: "https://vserver4.no-ip.org:8002/live/NBEdiXulTS/c6KjHkanhr/2316.ts"
+      },
+      {
+        name: "Canal+ Now",
+        logo: "https://sat-kom.co.uk/logos/371.png",
+        url: "https://vserver4.no-ip.org:8002/live/NBEdiXulTS/c6KjHkanhr/7271.ts"
+      },
+      {
+        name: "Eurosport 1 HD",
+        logo: "https://sat-kom.co.uk/logos/144.png",
+        url: "https://vserver4.no-ip.org:8002/live/NBEdiXulTS/c6KjHkanhr/2319.ts"
+      },
+      {
+        name: "FightBOX HD",
+        logo: "https://sat-kom.co.uk/logos/179.png",
+        url: "https://vserver4.no-ip.org:8002/live/NBEdiXulTS/c6KjHkanhr/2323.ts"
+      }
+    ];
+
+    const container = document.getElementById("channels");
+    const player = document.getElementById("player");
+
+    channels.forEach((ch) => {
+      const div = document.createElement("div");
+      div.className = "channel";
+      div.innerHTML = `
+        <h2>${ch.name}</h2>
+        ${ch.logo ? `<img src="${ch.logo}" alt="${ch.name} logo" />` : ""}
+        <button onclick="playStream('${ch.url}')">Oglądaj</button>
+      `;
+      container.appendChild(div);
+    });
+
     function playStream(url) {
-      const video = document.getElementById('player');
+      player.style.display = "block";
       if (Hls.isSupported()) {
         const hls = new Hls();
         hls.loadSource(url);
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
-      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        video.src = url;
-        video.play();
+        hls.attachMedia(player);
+        hls.on(Hls.Events.MANIFEST_PARSED, () => player.play());
+      } else if (player.canPlayType("application/vnd.apple.mpegurl")) {
+        player.src = url;
+        player.play();
       } else {
-        alert("Twoja przeglądarka nie obsługuje HLS");
+        alert("Twoja przeglądarka nie obsługuje odtwarzania HLS.");
       }
     }
   </script>
