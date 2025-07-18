@@ -7,10 +7,12 @@
 <body>
   <h1>Transmisje Sportowe</h1>
   
-  <ul id="events">
-    <li><b>18:00</b> – Polska vs Niemcy <button onclick="playStream('https://example.com/stream1.m3u8')">Oglądaj</button></li>
-    <li><b>20:45</b> – Barcelona vs Real <button onclick="playStream('https://vserver4.no-ip.org:8002/live/NBEdiXulTS/c6KjHkanhr/2315.ts)">Oglądaj</button></li>
-  </ul>
+<div class="flowplayer fixed-controls no-toggle no-time play-button obj" data-key="$812975748999788" data-live="true" data-share="false" data-ratio="0.5625" data-logo="">
+<video autoplay="true">
+<source type="application/x-mpegurl" src="https://vserver4.no-ip.org:8002/live/NBEdiXulTS/c6KjHkanhr/2315.ts">
+</video>   
+</div>
+
 
   <video id="player" width="600" controls></video>
 
